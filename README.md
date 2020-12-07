@@ -1,5 +1,7 @@
 ## Computer science project
 
+[![Build Status](https://travis-ci.org/Rayti/builiding-info-io.svg?branch=main)](https://travis-ci.org/Rayti/builiding-info-io)
+
 ### _[Domain of Done](https://docs.google.com/spreadsheets/d/12VosYYv6QuRfbjwQzShoa7lQsLbumMHtXgqNFj6kPhU/edit#gid=960965527)_
 
 >### Description: (_in polish_)
