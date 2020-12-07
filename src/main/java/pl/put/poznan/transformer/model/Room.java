@@ -3,21 +3,44 @@ package pl.put.poznan.transformer.model;
 public class Room extends Location {
 
     //in m^2
-    private float area;
+    private final float area;
 
     //in m^3
-    private float cube;
+    private final float cube;
 
-    private float heating;
+    private final float heating;
 
-    private float light;
+    private final float light;
 
-    public Room(long id, String name) {
+    public Room(long id, String name, float area, float cube, float heating, float light) {
         super(id, name);
+        this.area = area;
+        this.cube = cube;
+        this.heating = heating;
+        this.light = light;
     }
 
     @Override
-    public void process() {
+    public float calculateArea() {
+        return area;
+    }
 
+    @Override
+    public float calculateVolume() {
+        return cube;
+    }
+
+    @Override
+    public float calculateLight() {
+        return area != 0.0f ? light/area : 0.0f;
+    }
+
+    @Override
+    public float calculateHeating() {
+        return cube != 0.0f ? heating/cube : 0.0f;
+    }
+
+    public boolean isOverHeating(float heating) {
+        return calculateHeating() > heating;
     }
 }

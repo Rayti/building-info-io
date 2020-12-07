@@ -10,7 +10,14 @@ public abstract class Location {
         this.name = name;
     }
 
-    public abstract void process();
+    //#3
+    public abstract float calculateArea();
+    //#4
+    public abstract float calculateVolume();
+    //#5
+    public abstract float calculateLight();
+    //#6
+    public abstract float calculateHeating();
 
     public long getId() {
         return id;
