@@ -36,11 +36,13 @@ public class Level extends Location {
 
     @Override
     public float calculateLight() {
-        return calculate(Room::calculateLight);
+        int roomAmount = roomList.size();
+        return roomAmount > 0 ? calculate(Room::calculateLight) : 0;
     }
 
     @Override
     public float calculateHeating() {
-        return calculate(Room::calculateHeating);
+        int roomAmount = roomList.size();
+        return roomAmount > 0 ? calculate(Room::calculateHeating) : 0;
     }
 }

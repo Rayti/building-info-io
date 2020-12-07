@@ -36,11 +36,13 @@ public class Building extends Location {
 
     @Override
     public float calculateLight() {
-        return calculate(Level::calculateLight);
+        int levelAmount = levelList.size();
+        return levelAmount > 0 ? calculate(Level::calculateLight) : 0;
     }
 
     @Override
     public float calculateHeating() {
-        return calculate(Level::calculateHeating);
+        int levelAmount = levelList.size();
+        return levelAmount > 0 ? calculate(Level::calculateHeating) : 0;
     }
 }
