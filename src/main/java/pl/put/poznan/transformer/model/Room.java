@@ -1,5 +1,7 @@
 package pl.put.poznan.transformer.model;
 
+import pl.put.poznan.transformer.logic.Visitor;
+
 public class Room extends Location {
 
     //in m^2
@@ -38,6 +40,11 @@ public class Room extends Location {
     @Override
     public float calculateHeating() {
         return cube != 0.0f ? heating/cube : 0.0f;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitRoom(this);
     }
 
     public boolean isOverHeating(float heating) {

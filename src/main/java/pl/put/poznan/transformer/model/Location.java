@@ -1,5 +1,7 @@
 package pl.put.poznan.transformer.model;
 
+import pl.put.poznan.transformer.logic.Visitor;
+
 public abstract class Location {
 
     private final long id;
@@ -18,6 +20,8 @@ public abstract class Location {
     public abstract float calculateLight();
     //#6
     public abstract float calculateHeating();
+
+    public abstract void accept(Visitor visitor);
 
     public long getId() {
         return id;

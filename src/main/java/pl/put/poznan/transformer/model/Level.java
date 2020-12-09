@@ -1,5 +1,7 @@
 package pl.put.poznan.transformer.model;
 
+import pl.put.poznan.transformer.logic.Visitor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.ToDoubleFunction;
@@ -37,12 +39,19 @@ public class Level extends Location {
     @Override
     public float calculateLight() {
         int roomAmount = roomList.size();
-        return roomAmount > 0 ? calculate(Room::calculateLight) : 0;
+        return roomAmount > 0 ? calculate(Room::calculateLight)/roomAmount : 0;
     }
 
     @Override
     public float calculateHeating() {
         int roomAmount = roomList.size();
-        return roomAmount > 0 ? calculate(Room::calculateHeating) : 0;
+        return roomAmount > 0 ? calculate(Room::calculateHeating)/roomAmount : 0;
     }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.visitLevel(this);
+    }
+
+
 }
