@@ -8,19 +8,47 @@ public class AreaVisitor implements Visitor {
 
     private float area = -1;
 
+    private long searchingId = -1;
+
+    public AreaVisitor(long searchingId) {
+        this.searchingId = searchingId;
+    }
+
     @Override
     public void visitRoom(Room room) {
-        area = room.calculateArea();
+        if(room.getId() == searchingId){
+            area = room.calculateArea();
+        }
     }
 
     @Override
     public void visitLevel(Level level) {
-        area = level.calculateArea();
+        if (level.getId() == searchingId) {
+            area = level.calculateArea();
+        } else {
+            for (Room room : level.getRoomList()) {
+                visitRoom(room);
+            }
+        }
     }
 
     @Override
     public void visitBuilding(Building building) {
-        area = building.calculateArea();
+        if (building.getId() == searchingId) {
+            area = building.calculateArea();
+        } else {
+            for (Level level : building.getLevelList()) {
+                visitLevel(level);
+            }
+        }
+    }
+
+    public long getSearchingId() {
+        return searchingId;
+    }
+
+    public void setSearchingId(long searchingId) {
+        this.searchingId = searchingId;
     }
 
     public float getArea() {

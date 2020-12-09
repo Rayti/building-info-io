@@ -8,19 +8,39 @@ public class VolumeVisitor implements Visitor {
 
     private float volume = -1;
 
+    private long searchingId = -1;
+
+    public VolumeVisitor(long searchingId) {
+        this.searchingId = searchingId;
+    }
+
     @Override
     public void visitRoom(Room room) {
-        volume = room.calculateVolume();
+        if(room.getId() == searchingId){
+            volume = room.calculateVolume();
+        }
     }
 
     @Override
     public void visitLevel(Level level) {
-        volume = level.calculateVolume();
+        if (level.getId() == searchingId) {
+            volume = level.calculateVolume();
+        } else {
+            for (Room room : level.getRoomList()) {
+                visitRoom(room);
+            }
+        }
     }
 
     @Override
     public void visitBuilding(Building building) {
-        volume = building.calculateVolume();
+        if (building.getId() == searchingId) {
+            volume = building.calculateVolume();
+        } else {
+            for (Level level : building.getLevelList()) {
+                visitLevel(level);
+            }
+        }
     }
 
     public float getVolume() {

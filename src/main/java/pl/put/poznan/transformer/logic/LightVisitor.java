@@ -8,18 +8,42 @@ public class LightVisitor implements Visitor {
 
     private float light = -1;
 
+    private long searchingId = -1;
+
+    public LightVisitor(long searchingId) {
+        this.searchingId = searchingId;
+    }
+
     @Override
     public void visitRoom(Room room) {
-        light = room.calculateLight();
+        if (room.getId() == searchingId) {
+            light = room.calculateLight();
+        }
     }
 
     @Override
     public void visitLevel(Level level) {
-        light = level.calculateLight();
+        if (level.getId() == searchingId) {
+            light = level.calculateLight();
+        } else {
+            for (Room room : level.getRoomList()) {
+                visitRoom(room);
+            }
+        }
     }
 
     @Override
     public void visitBuilding(Building building) {
-        light = building.calculateLight();
+        if (building.getId() == searchingId) {
+            light = building.calculateLight();
+        } else {
+            for (Level level : building.getLevelList()) {
+                visitLevel(level);
+            }
+        }
+    }
+
+    public float getLight() {
+        return light;
     }
 }

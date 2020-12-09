@@ -1,5 +1,6 @@
 package pl.put.poznan.transformer.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import pl.put.poznan.transformer.logic.Visitor;
 
 import java.util.ArrayList;
@@ -10,10 +11,18 @@ public class Level extends Location {
 
     private List<Room> roomList;
 
-    public Level(long id, String name, Room[] rooms) {
+
+    public Level(@JsonProperty("id") long id,
+                 @JsonProperty("name") String name,
+                 @JsonProperty("roomList") Room... rooms) {
         super(id, name);
         roomList = new ArrayList<>();
         roomList.addAll(List.of(rooms));
+    }
+
+    public Level(long id, String name) {
+        super(id, name);
+        roomList = new ArrayList<>();
     }
 
     public void addRoom(Room room) {
@@ -53,5 +62,8 @@ public class Level extends Location {
         visitor.visitLevel(this);
     }
 
+    public List<Room> getRoomList() {
+        return roomList;
+    }
 
 }
