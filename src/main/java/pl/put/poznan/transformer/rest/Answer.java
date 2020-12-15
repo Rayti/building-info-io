@@ -2,17 +2,17 @@ package pl.put.poznan.transformer.rest;
 
 public class Answer {
 
-    private String asnwer;
+    private String answer;
 
     public Answer(String asnwer) {
-        this.asnwer = asnwer;
+        this.answer = asnwer;
     }
 
     public String getAsnwer() {
-        return asnwer;
+        return answer;
     }
 
     public void setAsnwer(String asnwer) {
-        this.asnwer = asnwer;
+        this.answer = asnwer;
     }
 }

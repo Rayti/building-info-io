@@ -1,16 +1,11 @@
 package pl.put.poznan.transformer.rest;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import pl.put.poznan.transformer.logic.AreaVisitor;
-import pl.put.poznan.transformer.logic.HeatingVisitor;
-import pl.put.poznan.transformer.logic.LightVisitor;
-import pl.put.poznan.transformer.logic.VolumeVisitor;
+import org.springframework.web.bind.annotation.*;
+import pl.put.poznan.transformer.logic.*;
 import pl.put.poznan.transformer.model.Building;
 import pl.put.poznan.transformer.model.Level;
+import pl.put.poznan.transformer.model.Location;
 import pl.put.poznan.transformer.model.Room;
 
 @RestController
@@ -22,35 +17,40 @@ public class BuildingController {
         return building;
     }
 
-    @GetMapping("/area")
-    Answer returnArea(@RequestParam long id, @RequestBody Building building) {
+    @GetMapping("/area/{id}")
+    Answer returnArea(@PathVariable long id, @RequestBody Building building) {
         AreaVisitor areaVisitor = new AreaVisitor(id);
         building.accept(areaVisitor);
         return new Answer(String.valueOf(areaVisitor.getArea()));
     }
 
-    @GetMapping("/volume")
-    Answer returnVolume(@RequestParam long id, @RequestBody Building building){
+    @GetMapping("/volume/{id}")
+    Answer returnVolume(@PathVariable long id, @RequestBody Building building){
         VolumeVisitor volumeVisitor = new VolumeVisitor(id);
         building.accept(volumeVisitor);
         return new Answer(String.valueOf(volumeVisitor.getVolume()));
     }
 
-    @GetMapping("/light")
-    Answer returnLight(@RequestParam long id, @RequestBody Building building) {
+    @GetMapping("/light/{id}")
+    Answer returnLight(@PathVariable long id, @RequestBody Building building) {
         LightVisitor lightVisitor = new LightVisitor(id);
         building.accept(lightVisitor);
         return new Answer(String.valueOf(lightVisitor.getLight()));
     }
 
-    @GetMapping("heating")
-    Answer returnHeating(@RequestParam long id, @RequestBody Building building) {
+    @GetMapping("/heating/{id}")
+    Answer returnHeating(@PathVariable long id, @RequestBody Building building) {
         HeatingVisitor heatingVisitor = new HeatingVisitor(id);
         building.accept(heatingVisitor);
         return new Answer(String.valueOf(heatingVisitor.getHeating()));
     }
 
-
+    @GetMapping("/overheating_locations/{heating}")
+    Location[] returnOverheatingLocations(@PathVariable float heating, @RequestBody Building building) {
+        OverheatingLocationsVisitor visitor = new OverheatingLocationsVisitor(heating);
+        building.accept(visitor);
+        return visitor.getOverheatedLocations();
+    }
 
     @GetMapping("/sample_building")
     Building returnSampleBuilding() {
@@ -79,9 +79,4 @@ public class BuildingController {
 
         return building;
     }
-
-
-
-
-
 }
