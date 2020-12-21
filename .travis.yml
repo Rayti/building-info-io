@@ -4,3 +4,7 @@ install: true
 script: ./mvnw clean install
 
 deploy:
+  provider: releases
+  api_key: "6d256088a21f00e386d6932d7cae1209d76249d7"
+  skip_cleanup: true
+  draft: true
