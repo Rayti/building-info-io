@@ -43,13 +43,6 @@ public class AreaVisitor implements Visitor {
         }
     }
 
-    public long getSearchingId() {
-        return searchingId;
-    }
-
-    public void setSearchingId(long searchingId) {
-        this.searchingId = searchingId;
-    }
 
     public float getArea() {
         return area;

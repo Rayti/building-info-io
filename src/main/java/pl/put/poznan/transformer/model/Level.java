@@ -40,6 +40,10 @@ public class Level extends Location {
         return calculate(Room::calculateArea);
     }
 
+    public float calculateArea2(){
+        return calculate(Room::calculateArea);
+    }
+
     @Override
     public float calculateVolume() {
         return calculate(Room::calculateVolume);
