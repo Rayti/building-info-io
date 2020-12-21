@@ -1,4 +1,4 @@
-/home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/logic/TextTransformer.java
+/home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/app/Application.java
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/logic/Visitor.java
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/model/Building.java
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/logic/LightVisitor.java
@@ -7,9 +7,7 @@
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/model/Level.java
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/logic/OverheatingLocationsVisitor.java
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/model/Room.java
-/home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/app/TextTransformerApplication.java
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/rest/Answer.java
-/home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/rest/TextTransformerController.java
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/logic/VolumeVisitor.java
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/rest/BuildingController.java
 /home/milosz/Studia/sem5/IO/Projekt_sprint/src/main/java/pl/put/poznan/transformer/model/Location.java
