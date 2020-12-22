@@ -47,4 +47,19 @@ public class Room extends Location {
         visitor.visitRoom(this);
     }
 
+    public float getArea() {
+        return area;
+    }
+
+    public float getCube() {
+        return cube;
+    }
+
+    public float getHeating() {
+        return heating;
+    }
+
+    public float getLight() {
+        return light;
+    }
 }
