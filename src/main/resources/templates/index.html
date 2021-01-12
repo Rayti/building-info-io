@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Building Info App</title>
+</head>
+<body>
+<h2>Building Info App</h2>
+
+<form action="#" th:action="@{/api/building/sample}" method="get">
+    <p>You can use sample building
+        <input type="submit" value="Use it!">
+    </p>
+</form>
+
+
+<div th:if="${building != null}">
+    <table>
+        <tr>
+            <th colspan="2">Building</th>
+        </tr>
+        <tr>
+            <th>Index</th>
+            <th>Name</th>
+        </tr>
+        <tr>
+            <td th:text="${building.getId()}"></td>
+            <td th:text="${building.getName()}"></td>
+        </tr>
+        <th:block th:each="level : ${building.getLevelList()}">
+            <tr>
+                <th></th>
+                <th colspan="2">Level</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>Index</th>
+                <th>Name</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td th:text="${level.getId()}"></td>
+                <td th:text="${level.getName()}"></td>
+            </tr>
+            <tr>
+                <th colspan="2"></th>
+                <th colspan="2">Room</th>
+            </tr>
+            <tr>
+                <th colspan="2"></th>
+                <th>Index</th>
+                <th>Name</th>
+                <th>Area</th>
+                <th>Volume</th>
+                <th>Heating</th>
+                <th>Light Power</th>
+            </tr>
+            <tr th:each="room : ${level.getRoomList()}">
+                <td colspan="2"></td>
+                <td th:text="${room.getId()}"></td>
+                <td th:text="${room.getName()}"></td>
+                <td th:text="${room.getArea()}"></td>
+                <td th:text="${room.getCube()}"></td>
+                <td th:text="${room.getHeating()}"></td>
+                <td th:text="${room.getLight()}"></td>
+            </tr>
+
+        </th:block>
+
+
+    </table>
+
+</div>
+
+</body>
+</html>
