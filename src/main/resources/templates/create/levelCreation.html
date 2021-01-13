@@ -9,6 +9,9 @@
 <h2>Building Info App</h2>
 <br>
 
+<a th:href="@{/api/building}">Go back to main page (clears current building)</a>
+
+
 <p th:text="${message}"></p>
 
 <br>
@@ -25,7 +28,7 @@
             <td><input type="text" th:value="${building.getId()}" readonly></td>
             <td><input type="text" th:value="${building.getName()}" readonly></td>
         </tr>
-        <th:block th:each="lvl : ${building.getLevelList()}">
+        <th:block th:each="lvl, stat : ${building.getLevelList()}">
             <tr>
                 <th></th>
                 <th colspan="2">Level</th>
@@ -65,7 +68,7 @@
                 <td><input type="text" th:value="${room.getHeating()}" readonly></td>
                 <td><input type="text" th:value="${room.getLight()}" readonly></td>
             </tr>
-            <tr>
+            <tr th:if="${lvl.getId() == building.getLevelList().get(building.getLevelList().size() - 1).getId()}">
                 <td></td>
                 <td></td>
                 <td><input type="text" name="newRoomId"></td>
@@ -93,11 +96,23 @@
             <td><input type="submit" value="Create" th:formaction="@{/api/building/create/level}" formmethod="post"></td>
         </tr>
     </table>
-</form>
-<p>
-    <input type="submit" value="Finish creating building" th:formaction="@{/api/building/options}" formmethod="get">
+    <p>
+        <input type="submit" value="Finish creating building" th:formaction="@{/api/building/options}" formmethod="get">
 
-</p>
+    </p>
+</form>
+<br>
+<table>
+    <tr>
+        <th colspan="3">Authors</th>
+    </tr>
+    <tr>
+        <th>Miłosz Karłowicz</th>
+        <th>Zuzanna Rękawek</th>
+        <th>Adam Wojciechowski</th>
+    </tr>
+</table>
+<br>
 
 </body>
 

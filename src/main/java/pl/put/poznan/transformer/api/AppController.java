@@ -4,15 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import pl.put.poznan.transformer.model.Building;
-import pl.put.poznan.transformer.model.Level;
-import pl.put.poznan.transformer.model.Room;
-import pl.put.poznan.transformer.model.SampleBuildingModel;
+import org.springframework.web.bind.annotation.*;
+import pl.put.poznan.transformer.logic.*;
+import pl.put.poznan.transformer.model.*;
 import pl.put.poznan.transformer.service.BuildingService;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class AppController {
@@ -32,8 +30,9 @@ public class AppController {
     }
 
     @GetMapping("/api/building/sample")
-    public String createSampleBuildingAndshowMainView(Model model){
+    public String createSampleBuildingAndShowMainView(Model model){
         Building building = SampleBuildingModel.get();
+        service.setBuilding(building);
         logger.info("Request for view with sample");
         model.addAttribute("building", building);
         return "index";
@@ -46,6 +45,88 @@ public class AppController {
         model.addAttribute("building", service.getBuilding());
         return "index";
     }
+
+    @GetMapping("/api/building/options/calculateArea")
+    public String calculateArea(@RequestParam String newAreaId, Model model) {
+        model.addAttribute("building", service.getBuilding());
+        if(!checkCalculateData(newAreaId, model)) return "index";
+        AreaVisitor visitor = new AreaVisitor(Long.parseLong(newAreaId));
+        service.getBuilding().accept(visitor);
+        float area = visitor.getArea();
+        model.addAttribute("calcArea", area);
+        model.addAttribute("calcAreaId", Long.parseLong(newAreaId));
+        return "index";
+    }
+
+    @GetMapping("/api/building/options/calculateVolume")
+    public String calculateVolume(@RequestParam String newVolumeId, Model model) {
+        model.addAttribute("building", service.getBuilding());
+        if(!checkCalculateData(newVolumeId, model)) return "index";
+        VolumeVisitor visitor = new VolumeVisitor(Long.parseLong(newVolumeId));
+        service.getBuilding().accept(visitor);
+        float volume = visitor.getVolume();
+        model.addAttribute("calcVolume", volume);
+        model.addAttribute("calcVolumeId", Long.parseLong(newVolumeId));
+        return "index";
+    }
+
+    @GetMapping("/api/building/options/calculateHeating")
+    public String calculateHeating(@RequestParam String newHeatingId, Model model) {
+        model.addAttribute("building", service.getBuilding());
+        if(!checkCalculateData(newHeatingId, model)) return "index";
+        HeatingVisitor visitor = new HeatingVisitor(Long.parseLong(newHeatingId));
+        service.getBuilding().accept(visitor);
+        float heating = visitor.getHeating();
+        model.addAttribute("calcHeating", heating);
+        model.addAttribute("calcHeatingId", Long.parseLong(newHeatingId));
+        return "index";
+    }
+
+    @GetMapping("/api/building/options/calculateLight")
+    public String calculateLight(@RequestParam String newLightId, Model model) {
+        model.addAttribute("building", service.getBuilding());
+        if(!checkCalculateData(newLightId, model)) return "index";
+        LightVisitor visitor = new LightVisitor(Long.parseLong(newLightId));
+        service.getBuilding().accept(visitor);
+        float light = visitor.getLight();
+        model.addAttribute("calcLight", light);
+        model.addAttribute("calcLightId", Long.parseLong(newLightId));
+        return "index";
+    }
+
+    @GetMapping("/api/building/options/getOverheatingLocations")
+    public String overheatingLocations(@RequestParam String newHeatingPivot, Model model) {
+        model.addAttribute("building", service.getBuilding());
+        if(!checkHeatingPivot(newHeatingPivot, model)) return "index";
+        OverheatingLocationsVisitor visitor = new OverheatingLocationsVisitor(Float.parseFloat(newHeatingPivot));
+        service.getBuilding().accept(visitor);
+        List<Location> locations = Arrays.asList(visitor.getOverheatedLocations());
+        model.addAttribute("overheatedLocations", locations);
+        if(locations.isEmpty()) model.addAttribute("messagePivot", "There are no locations meeting the criteria");
+        model.addAttribute("heatingPivot", newHeatingPivot);
+        return "index";
+    }
+
+    private boolean checkHeatingPivot(String pivot, Model model) {
+        if (pivot.isEmpty()) {
+            model.addAttribute("message", "Empty field!");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkCalculateData(String id, Model model) {
+        if (id.isEmpty()) {
+            model.addAttribute("message", "Empty index field!");
+            return false;
+        }
+        if(!service.idExistsInStructure(Long.parseLong(id))){
+            model.addAttribute("message", "Id does not exists!");
+            return false;
+        }
+        return true;
+    }
+
 
     @GetMapping("/api/building/create")
     public String goToBuildingCreation(Model model){
@@ -74,6 +155,11 @@ public class AppController {
             model.addAttribute("building", service.getBuilding());
             return "create/levelCreation";
         }
+        if (existsInStructure(Long.parseLong(newLevelId), model)) {
+            model.addAttribute("building", service.getBuilding());
+            return "create/levelCreation";
+        }
+
         Level level = new Level(Long.parseLong(newLevelId), newLevelName);
         service.addLevel(level);
         logger.info("Creating level: name: " + newLevelName + ", id: " + newLevelId);
@@ -94,9 +180,9 @@ public class AppController {
             model.addAttribute("building", service.getBuilding());
             return "create/levelCreation";
         }
-        if(newRoomArea.isEmpty()){
-            model.addAttribute("message", "EmptyArea");
-            return "error";
+        if (existsInStructure(Long.parseLong(newRoomId), model)) {
+            model.addAttribute("building", service.getBuilding());
+            return "create/levelCreation";
         }
         Room room = new Room(Long.parseLong(newRoomId), newRoomName,
                 Long.parseLong(newRoomArea), Long.parseLong(newRoomCube),
@@ -104,7 +190,6 @@ public class AppController {
         service.addRoom(levelId, room);
         logNewRoom(room);
         model.addAttribute("building", service.getBuilding());
-        //model.addAttribute("level", service.getLevel(levelId));
         return "create/levelCreation";
     }
 
@@ -128,12 +213,7 @@ public class AppController {
                 roomName.isEmpty() ||
                 roomCube.isEmpty() ||
                 roomHeating.isEmpty() ||
-                roomLight.isEmpty() ||
-                roomId.contains(",") ||
-                roomArea.contains(",") ||
-                roomCube.contains(",") ||
-                roomHeating.contains(",") ||
-                roomLight.contains(",")
+                roomLight.isEmpty()
         ) {
             model.addAttribute("message", "All room fields must be filled!");
             return false;
@@ -147,6 +227,14 @@ public class AppController {
             return false;
         }
         return true;
+    }
+
+    private boolean existsInStructure(long id, Model model) {
+        if(service.idExistsInStructure(id)){
+            model.addAttribute("message", "Id " + id + " already exists in your building!");
+            return true;
+        }
+        return false;
     }
 
 }

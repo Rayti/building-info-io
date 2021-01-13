@@ -56,21 +56,21 @@ public class BuildingService {
 
     public boolean idExistsInStructure(long id) {
         return idExistsForBuilding(id)
-                && idExistsInLevelsAndRooms(id);
+                || idExistsInLevelsOrRooms(id);
     }
 
     private boolean idExistsForBuilding(long id) {
         return building != null ? building.getId() == id : false;
     }
 
-    private boolean idExistsInLevelsAndRooms(long id) {
+    private boolean idExistsInLevelsOrRooms(long id) {
         if(!getLevels().isEmpty()){
             return getLevels()
                     .stream()
                     .anyMatch(level -> level.getId() == id
-                            && idExistsInRooms(level.getId(), id));
+                            || idExistsInRooms(level.getId(), id));
         }
-        else return true;
+        else return false;
     }
 
     private boolean idExistsInRooms(long levelId, long id){

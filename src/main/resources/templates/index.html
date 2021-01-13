@@ -8,6 +8,12 @@
 <body>
 <h2>Building Info App</h2>
 
+<a th:href="@{/api/building}">Go back to main page (clears current building)</a>
+
+<p th:text="${message}">
+
+</p>
+
 <form th:if="${building == null}" action="#" th:action="@{/api/building/sample}" method="get">
     <p>You can use sample building
         <input type="submit" value="Use it!">
@@ -31,12 +37,8 @@
             <th>Name</th>
         </tr>
         <tr>
-            <td>
-                <input type="text" name="buildingId" th:value="${building.getId()}">
-            </td>
-            <td>
-                <input type="text" name="buildingName" th:value="${building.getName()}">
-            </td>
+            <td th:text="${building.getId()}"></td>
+            <td th:text="${building.getName()}"></td>
         </tr>
         <th:block th:each="level : ${building.getLevelList()}">
             <tr>
@@ -75,13 +77,71 @@
                 <td th:text="${room.getHeating()}"></td>
                 <td th:text="${room.getLight()}"></td>
             </tr>
-
         </th:block>
-
-
     </table>
-
 </div>
+<div th:if="${building != null}">
+    <br>
+    <h4>Building Analyze</h4>
+    <form action="#" th:action="@{/api/building/options/calculateArea}" method="get">
+        <p>Calculate area of location with index <input type="text" name="newAreaId" th:value="${calcAreaId}">
+            <input type="submit" value="Submit">
+            <input th:if="${calcArea != null}" type="text" readonly th:value="${calcArea}">
+        </p>
+    </form>
+    <form action="#" th:action="@{/api/building/options/calculateVolume}" method="get">
+        <p>Calculate volume of location with index <input type="text" name="newVolumeId" th:value="${calcVolumeId}">
+            <input type="submit" value="Submit">
+            <input th:if="${calcVolume != null}" type="text" readonly th:value="${calcVolume}">
+        </p>
+    </form>
+    <form action="#" th:action="@{/api/building/options/calculateHeating}" method="get">
+        <p>Calculate heating power of location with index <input type="text" name="newHeatingId" th:value="${calcHeatingId}">
+            <input type="submit" value="Submit">
+            <input th:if="${calcHeating != null}" type="text" readonly th:value="${calcHeating}">
+        </p>
+    </form>
+    <form action="#" th:action="@{/api/building/options/calculateLight}" method="get">
+        <p>Calculate light power of location with index <input type="text" name="newLightId" th:value="${calcLightId}">
+            <input type="submit" value="Submit">
+            <input th:if="${calcLight != null}" type="text" readonly th:value="${calcLight}">
+        </p>
+    </form>
+    <form action="#" th:action="@{/api/building/options/getOverheatingLocations}" method="get">
+        <p>Find locations with heating power bigger than
+            <input type="text" name="newHeatingPivot" th:value="${heatingPivot}">
+            <input type="submit" value="Submit">
+        </p>
+    </form>
+    <table th:if="${overheatedLocations != null}">
+        <tr>
+            <th colspan="3">Locations meeting the criteria</th>
+        </tr>
+        <tr>
+            <th>Number</th>
+            <th>Name</th>
+            <th>Id</th>
+        </tr>
+        <tr th:each="location, stat : ${overheatedLocations}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${location.getName()}"></td>
+            <td th:text="${location.getId()}"></td>
+        </tr>
+    </table>
+    <p th:if="${messagePivot != null}" th:text="${messagePivot}"></p>
+</div>
+<br>
+<table>
+    <tr>
+        <th colspan="3">Authors</th>
+    </tr>
+    <tr>
+        <th rowspan="2">Miłosz <br> Karłowicz</th>
+        <th rowspan="2">Zuzanna <br> Rękawek</th>
+        <th rowspan="2">Adam <br> Wojciechowski</th>
+    </tr>
+</table>
+<br>
 
 </body>
 
