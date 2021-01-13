@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Building Info App</title>
+</head>
+<body>
+<h2>Building Info App</h2>
+
+<form action="#" th:action="@{/api/building/create}" method="post">
+<table>
+    <tr>
+        <th colspan="2">Building</th>
+    </tr>
+    <tr>
+        <th>index</th>
+        <th>name</th>
+    </tr>
+    <tr>
+        <td><input type="text" name="buildingId"></td>
+        <td><input type="text" name="buildingName"></td>
+        <td><input type="submit" value="Let's now create levels for this building"></td>
+    </tr>
+</table>
+</form>
+
+
+</body>
+
+</html>

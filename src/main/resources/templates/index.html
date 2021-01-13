@@ -8,9 +8,15 @@
 <body>
 <h2>Building Info App</h2>
 
-<form action="#" th:action="@{/api/building/sample}" method="get">
+<form th:if="${building == null}" action="#" th:action="@{/api/building/sample}" method="get">
     <p>You can use sample building
         <input type="submit" value="Use it!">
+    </p>
+</form>
+
+<form th:if="${building == null}" action="#" th:action="@{/api/building/create}" method="get">
+    <p>Create your own building
+        <input type="submit" value="Let's make it!">
     </p>
 </form>
 
@@ -25,8 +31,12 @@
             <th>Name</th>
         </tr>
         <tr>
-            <td th:text="${building.getId()}"></td>
-            <td th:text="${building.getName()}"></td>
+            <td>
+                <input type="text" name="buildingId" th:value="${building.getId()}">
+            </td>
+            <td>
+                <input type="text" name="buildingName" th:value="${building.getName()}">
+            </td>
         </tr>
         <th:block th:each="level : ${building.getLevelList()}">
             <tr>
@@ -74,4 +84,5 @@
 </div>
 
 </body>
+
 </html>

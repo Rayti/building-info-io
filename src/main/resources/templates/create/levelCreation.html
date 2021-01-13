@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Building Info App</title>
+</head>
+<body>
+<h2>Building Info App</h2>
+<br>
+
+<p th:text="${message}"></p>
+
+<br>
+<form action="#" th:action="@{/api/building/create/level}" method="post">
+    <table>
+        <tr>
+            <th colspan="2">Building</th>
+        </tr>
+        <tr>
+            <th>index</th>
+            <th>name</th>
+        </tr>
+        <tr>
+            <td><input type="text" th:value="${building.getId()}" readonly></td>
+            <td><input type="text" th:value="${building.getName()}" readonly></td>
+        </tr>
+        <th:block th:each="lvl : ${building.getLevelList()}">
+            <tr>
+                <th></th>
+                <th colspan="2">Level</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th>index</th>
+                <th>name</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="text" th:value="${lvl.getId()}" readonly></td>
+                <td><input type="text" th:value="${lvl.getName()}" readonly></td>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th colspan="2">Room</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>index</th>
+                <th>name</th>
+                <th>area</th>
+                <th>volume</th>
+                <th>heating</th>
+                <th>power level</th>
+            </tr>
+            <tr th:each="room : ${lvl.getRoomList()}">
+                <td></td>
+                <td></td>
+                <td><input type="text" th:value="${room.getId()}" readonly></td>
+                <td><input type="text" th:value="${room.getName()}" readonly></td>
+                <td><input type="text" th:value="${room.getArea()}" readonly></td>
+                <td><input type="text" th:value="${room.getCube()}" readonly></td>
+                <td><input type="text" th:value="${room.getHeating()}" readonly></td>
+                <td><input type="text" th:value="${room.getLight()}" readonly></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td><input type="text" name="newRoomId"></td>
+                <td><input type="text" name="newRoomName"></td>
+                <td><input type="text" name="newRoomArea"></td>
+                <td><input type="text" name="newRoomCube"></td>
+                <td><input type="text" name="newRoomHeating"></td>
+                <td><input type="text" name="newRoomLight"></td>
+                <td><input type="submit" value="Create" th:formaction="@{/api/building/create/room/} + ${lvl.getId()}" formmethod="post"></td>
+            </tr>
+        </th:block>
+        <tr>
+            <th></th>
+            <th colspan="2">Level</th>
+        </tr>
+        <tr>
+            <th></th>
+            <th>index</th>
+            <th>name</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="text" name="newLevelId"></td>
+            <td><input type="text" name="newLevelName"></td>
+            <td><input type="submit" value="Create" th:formaction="@{/api/building/create/level}" formmethod="post"></td>
+        </tr>
+    </table>
+</form>
+<p>
+    <input type="submit" value="Finish creating building" th:formaction="@{/api/building/options}" formmethod="get">
+
+</p>
+
+</body>
+
+</html>
