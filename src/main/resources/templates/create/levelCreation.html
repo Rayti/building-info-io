@@ -4,115 +4,190 @@
 <head>
     <meta charset="UTF-8">
     <title>Building Info App</title>
+    <style>
+        * {
+            font-family: "Lato Medium";
+        }
+        div {
+            text-align:center
+        }
+        body {
+            background-color: #253441;
+        }
+        input.tabStyle {
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            background-color: #253441  ;
+            color: #E3E3E3;
+        }
+        input.styleButton {
+            width: 30%;
+            height: 30px;
+            background-color: #253441  ;
+            color: #E3E3E3;
+        }
+        p {
+            color: #E3E3E3;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            color: #E3E3E3;
+            text-align: center;
+        }
+        table.authors {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+            width: 45%;
+            color: #E3E3E3;
+        }
+        th.authors, td.authors, tr.authors{
+            color: #E3E3E3;
+            border: 2px solid #0b2436 ;
+            width: 10%;
+            height: 40px;
+            text-align: center;
+        }
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+            width: 75%;
+            color: #E3E3E3;
+        }
+        th.tabStyle, td.tabStyle, tr.tabStyle {
+            color: #E3E3E3;
+            border: 2px solid #0b2436 ;
+            width: 10%;
+            height: 30px;
+            text-align: center;
+        }
+        td.tabStyleInput {
+            color: #E3E3E3;
+            border: 2px solid #0b2436 ;
+            width: 10%;
+            height: 40px;
+            text-align: center;
+        }
+        a {
+            color : #E3E3E3;
+            text-align: center;
+            width: 40%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        input:hover {background-color: #970083}
+        a:hover {background-color: #970083}
+    </style>
 </head>
 <body>
 <h2>Building Info App</h2>
 <br>
+<div>
+    <a th:href="@{/api/building}">Go back to main page (clears current building)</a>
+    <p th:text="${message}"></p>
+    <br>
+    <form action="#" th:action="@{/api/building/create/level}" method="post">
+        <table>
+            <tr>
+                <th class="tabStyle" colspan="2">Building</th>
+            </tr>
+            <tr>
+                <th class="tabStyle">index</th>
+                <th class="tabStyle">name</th>
+            </tr>
+            <tr>
+                <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${building.getId()}" readonly></td>
+                <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${building.getName()}" readonly></td>
+            </tr>
+            <th:block th:each="lvl, stat : ${building.getLevelList()}">
+                <tr>
+                    <th></th>
+                    <th class="tabStyle" colspan="2">Level</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th class="tabStyle">index</th>
+                    <th class="tabStyle">name</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${lvl.getId()}" readonly></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${lvl.getName()}" readonly></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th class="tabStyle" colspan="2">Room</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th class="tabStyle">index</th>
+                    <th class="tabStyle">name</th>
+                    <th class="tabStyle">area</th>
+                    <th class="tabStyle">volume</th>
+                    <th class="tabStyle">heating</th>
+                    <th class="tabStyle">power level</th>
+                </tr>
+                <tr th:each="room : ${lvl.getRoomList()}">
+                    <td></td>
+                    <td></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${room.getId()}" readonly></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${room.getName()}" readonly></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${room.getArea()}" readonly></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${room.getCube()}" readonly></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${room.getHeating()}" readonly></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" th:value="${room.getLight()}" readonly></td>
+                </tr>
+                <tr th:if="${lvl.getId() == building.getLevelList().get(building.getLevelList().size() - 1).getId()}">
+                    <td></td>
+                    <td></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" name="newRoomId"></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" name="newRoomName"></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" name="newRoomArea"></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" name="newRoomCube"></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" name="newRoomHeating"></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="text" name="newRoomLight"></td>
+                    <td class="tabStyleInput"><input class="tabStyle" type="submit" value="Create" th:formaction="@{/api/building/create/room/} + ${lvl.getId()}" formmethod="post"></td>
+                </tr>
+            </th:block>
+            <tr>
+                <th></th>
+                <th class="tabStyle" colspan="2">Level</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th class="tabStyle">index</th>
+                <th class="tabStyle">name</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="tabStyleInput"><input class="tabStyle" type="text" name="newLevelId"></td>
+                <td class="tabStyleInput"><input class="tabStyle" type="text" name="newLevelName"></td>
+                <td class="tabStyleInput"><input class="tabStyle" type="submit" value="Create" th:formaction="@{/api/building/create/level}" formmethod="post"></td>
+            </tr>
+        </table>
+        <p>
+            <input class="styleButton" type="submit" value="Finish creating building" th:formaction="@{/api/building/options}" formmethod="get">
 
-<a th:href="@{/api/building}">Go back to main page (clears current building)</a>
-
-
-<p th:text="${message}"></p>
-
-<br>
-<form action="#" th:action="@{/api/building/create/level}" method="post">
-    <table>
+        </p>
+    </form>
+    <br>
+    <table class="authors">
         <tr>
-            <th colspan="2">Building</th>
+            <th class="authors" colspan="3">Authors</th>
         </tr>
         <tr>
-            <th>index</th>
-            <th>name</th>
-        </tr>
-        <tr>
-            <td><input type="text" th:value="${building.getId()}" readonly></td>
-            <td><input type="text" th:value="${building.getName()}" readonly></td>
-        </tr>
-        <th:block th:each="lvl, stat : ${building.getLevelList()}">
-            <tr>
-                <th></th>
-                <th colspan="2">Level</th>
-            </tr>
-            <tr>
-                <th></th>
-                <th>index</th>
-                <th>name</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td><input type="text" th:value="${lvl.getId()}" readonly></td>
-                <td><input type="text" th:value="${lvl.getName()}" readonly></td>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th colspan="2">Room</th>
-            </tr>
-            <tr>
-                <th></th>
-                <th></th>
-                <th>index</th>
-                <th>name</th>
-                <th>area</th>
-                <th>volume</th>
-                <th>heating</th>
-                <th>power level</th>
-            </tr>
-            <tr th:each="room : ${lvl.getRoomList()}">
-                <td></td>
-                <td></td>
-                <td><input type="text" th:value="${room.getId()}" readonly></td>
-                <td><input type="text" th:value="${room.getName()}" readonly></td>
-                <td><input type="text" th:value="${room.getArea()}" readonly></td>
-                <td><input type="text" th:value="${room.getCube()}" readonly></td>
-                <td><input type="text" th:value="${room.getHeating()}" readonly></td>
-                <td><input type="text" th:value="${room.getLight()}" readonly></td>
-            </tr>
-            <tr th:if="${lvl.getId() == building.getLevelList().get(building.getLevelList().size() - 1).getId()}">
-                <td></td>
-                <td></td>
-                <td><input type="text" name="newRoomId"></td>
-                <td><input type="text" name="newRoomName"></td>
-                <td><input type="text" name="newRoomArea"></td>
-                <td><input type="text" name="newRoomCube"></td>
-                <td><input type="text" name="newRoomHeating"></td>
-                <td><input type="text" name="newRoomLight"></td>
-                <td><input type="submit" value="Create" th:formaction="@{/api/building/create/room/} + ${lvl.getId()}" formmethod="post"></td>
-            </tr>
-        </th:block>
-        <tr>
-            <th></th>
-            <th colspan="2">Level</th>
-        </tr>
-        <tr>
-            <th></th>
-            <th>index</th>
-            <th>name</th>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="text" name="newLevelId"></td>
-            <td><input type="text" name="newLevelName"></td>
-            <td><input type="submit" value="Create" th:formaction="@{/api/building/create/level}" formmethod="post"></td>
+            <th class="authors" rowspan="2">Miłosz <br> Karłowicz</th>
+            <th class="authors" rowspan="2">Zuzanna <br> Rękawek</th>
+            <th class="authors" rowspan="2">Adam <br> Wojciechowski</th>
         </tr>
     </table>
-    <p>
-        <input type="submit" value="Finish creating building" th:formaction="@{/api/building/options}" formmethod="get">
-
-    </p>
-</form>
-<br>
-<table>
-    <tr>
-        <th colspan="3">Authors</th>
-    </tr>
-    <tr>
-        <th>Miłosz Karłowicz</th>
-        <th>Zuzanna Rękawek</th>
-        <th>Adam Wojciechowski</th>
-    </tr>
-</table>
-<br>
+    <br>
+</div>
 
 </body>
 
