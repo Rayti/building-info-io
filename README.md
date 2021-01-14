@@ -23,3 +23,14 @@
 >  * cube = kubatura pomieszczenia w m^3
 >  * heating = poziom zużycia energii ogrzewania (float)
 >  * light – łączna moc oświetlenia
+
+### Demo:
+#### Front page:
+![Front](https://github.com/Rayti/builiding-info-io/blob/main/demoPNG/Screenshot%20from%202021-01-14%2019-51-45.png)
+#### Create
+![Create](https://github.com/Rayti/builiding-info-io/blob/main/demoPNG/Screenshot%20from%202021-01-14%2019-53-22.png)
+#### Analyze
+![Analyze](https://github.com/Rayti/builiding-info-io/blob/main/demoPNG/Screenshot%20from%202021-01-14%2019-53-57.png)
+#### Analyze further
+![Analyze_further](https://github.com/Rayti/builiding-info-io/blob/main/demoPNG/Screenshot%20from%202021-01-14%2019-54-10.png)
+
