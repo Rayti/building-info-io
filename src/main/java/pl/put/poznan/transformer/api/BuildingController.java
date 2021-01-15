@@ -40,7 +40,7 @@ public class BuildingController {
     Answer returnArea(@PathVariable long id, @RequestBody Building building) {
         AreaVisitor areaVisitor = new AreaVisitor(id);
         building.accept(areaVisitor);
-        logger.info("Request for area of " + id + " id");
+        logger.info("Request for area of " + id +  " id");
         return new Answer(String.valueOf(areaVisitor.getArea()));
     }
 
