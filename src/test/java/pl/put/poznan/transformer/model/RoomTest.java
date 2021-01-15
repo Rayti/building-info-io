@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.put.poznan.transformer.logic.AreaVisitor;
 import pl.put.poznan.transformer.logic.Visitor;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoomTest {
