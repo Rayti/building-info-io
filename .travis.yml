@@ -10,7 +10,7 @@ jobs:
         - cp target/building-info-io-1.1-javadoc.jar target/javadoc-1.1.jar
       deploy:
         provider: releases
-        user: "$logins"
+        username: "$logins"
         password: "$passs"
         file:
           - target/building-info-io-1.1.jar
