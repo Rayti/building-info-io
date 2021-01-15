@@ -15,7 +15,7 @@ jobs:
           - target/building-info-io-2.0.jar
           - target/javadoc-2.0.jar
         edge: true
-        tag_name: v2.0
+        tag_name: v2.0.1
         on:
           tags: false
           branch: main
