@@ -1,13 +1,27 @@
+
 language: java
-install: true
-deploy:
-  provider: releases
-  user: "$logins"
-  password: "$passs"
-  skip_cleanup: true
-  on:
-    tags: true
+
+jobs:
+  include:
+    - stage: GitHub Release
+      script: skip
+      before_deploy:
+        - export
+        - mvn test javadoc:jar
+        - cp target/building-info-io-1.1-javadoc.jar target/javadoc-1.1.jar
+    deploy:
+      provider: releases
+      user: "$logins"
+      password: "$passs"
+      file:
+        - target/building-info-io-1.1.jar
+        - target/javadoc-1.1.jar
+      edge: true
+      tag_name: v1.1
+      on:
+        tags: false
+        branch: main
 env:
   global:
-  - secure: TW6GzumYPqM0//nKEk/vZY4LI1BQnDmRvX2cNNXrsHNoD/Oc4/YpxwTTkWjX+3OpDsk0DII9b3FeZezaOCHfTB5uNR2BCxmR8FRpBOl/ucTH3mU68LvJrkAPs7383WbdE2h/pUlZ4LGym68je9w81pUoV5E1ttQvp4ZK7OHNhRTf9qZ7/HMi6IpqTRIUc0aKC9AWzOT+RGNlciyyfXLe1BwCwW/iagkZ0cRyXREqmaARHUUryn6u5HQOGhPLM5bmsNhYuvPgB8S0gqadZIN/kUp6HMLULXxL0rZPQq0NiNo3A7X7+7/eN3LTCoBHybvbO0gx8caEy47iF5JMSRGWgkv2wZy6DhpH8gr0Qa2UlX6FlTMJG593swdUk5wIsUMJlTmaTOJD34y7B558cci/Yu2Mt23ko2dYZAdc+HiMAXTtsc5NAvJGOJTUeIaYl+wXeBDMlIbJV2ZLuqdVdCRxwZ7/zQtfDGPrnNe4BxST/XbJJ1GAuzRj5/5J/l//axGnTpDdW86//hArGc/O01QfXCkcSG4PdKneUqxWpirMoNmnrc0vg9iSLTH6wToSChIkNSDR9vqnGS8O4keZtNbiYhl4AITqVHHf3PW2PPgvirJ2G6Opt7V5HJZglRIOFEocGGyXA/R/HwblENd/K7DPltZBavdjEB9+OgcltBnUPG8=
-  - secure: PM4Fh7HVt4B+mn60W0RtK6ulECYoiKJtieOVc1vGYCD/2mXZ2g9lC5Lw0U8Me5skWrTOnHg8gpGdfhW1jkMWb6qBRgjjsVCzo1/xoTWiSArydti9ZSV9y5T5C4f+9bRUkQCbXoyIOz+DzZEzMWOuVjKSQVgz5AI2oBtBQ65IO08pwarFzZBT/8VKPgxWl7lcAPZ5FmgQnv3Es8LqPD3AnX/DTpTjxSGCxH8XOx5oNQhdscAaqIu7VgzklBF6XxjS8fb/YyzNpcprkr5/0SMImlS+N3TFi5V3tpFGZSKZS/tqVOU/0UhhUvayTndKJ7zrTOH54mDuUZijRSoJj/lauif0eEQBNUr8q4Pob3E+jM9NxIEbGnLyXc5XGMNkjahGyxI/KGnZXA7ejUICpOZK7/wpqsm7qs4KaCdr8PqFlP0Yi2lvkbqEhR07g5XvL3DAFIV9biTmZvJjC0kagjvBj2H6ucIe5j6w0pDEwBY3lgIlwZldX2+0AB4lzvTWV+3d1pRcJVyUqGTmOXDgNKwLGcoWER9enrsjMuK6o7EeWLS0AFV3lCDrVSdI6j+giHq6C8muNqtb3L9B+bBEQvUfviAyI/LLr6PO1qR1Mu+F8nAfeESXCrlQfwgV9fihTF1l5Cnys0xfEswwykeo4cjE4GS8gkaCXdg0mTPX1tIh0pg=
+    - secure: TW6GzumYPqM0//nKEk/vZY4LI1BQnDmRvX2cNNXrsHNoD/Oc4/YpxwTTkWjX+3OpDsk0DII9b3FeZezaOCHfTB5uNR2BCxmR8FRpBOl/ucTH3mU68LvJrkAPs7383WbdE2h/pUlZ4LGym68je9w81pUoV5E1ttQvp4ZK7OHNhRTf9qZ7/HMi6IpqTRIUc0aKC9AWzOT+RGNlciyyfXLe1BwCwW/iagkZ0cRyXREqmaARHUUryn6u5HQOGhPLM5bmsNhYuvPgB8S0gqadZIN/kUp6HMLULXxL0rZPQq0NiNo3A7X7+7/eN3LTCoBHybvbO0gx8caEy47iF5JMSRGWgkv2wZy6DhpH8gr0Qa2UlX6FlTMJG593swdUk5wIsUMJlTmaTOJD34y7B558cci/Yu2Mt23ko2dYZAdc+HiMAXTtsc5NAvJGOJTUeIaYl+wXeBDMlIbJV2ZLuqdVdCRxwZ7/zQtfDGPrnNe4BxST/XbJJ1GAuzRj5/5J/l//axGnTpDdW86//hArGc/O01QfXCkcSG4PdKneUqxWpirMoNmnrc0vg9iSLTH6wToSChIkNSDR9vqnGS8O4keZtNbiYhl4AITqVHHf3PW2PPgvirJ2G6Opt7V5HJZglRIOFEocGGyXA/R/HwblENd/K7DPltZBavdjEB9+OgcltBnUPG8=
+    - secure: PM4Fh7HVt4B+mn60W0RtK6ulECYoiKJtieOVc1vGYCD/2mXZ2g9lC5Lw0U8Me5skWrTOnHg8gpGdfhW1jkMWb6qBRgjjsVCzo1/xoTWiSArydti9ZSV9y5T5C4f+9bRUkQCbXoyIOz+DzZEzMWOuVjKSQVgz5AI2oBtBQ65IO08pwarFzZBT/8VKPgxWl7lcAPZ5FmgQnv3Es8LqPD3AnX/DTpTjxSGCxH8XOx5oNQhdscAaqIu7VgzklBF6XxjS8fb/YyzNpcprkr5/0SMImlS+N3TFi5V3tpFGZSKZS/tqVOU/0UhhUvayTndKJ7zrTOH54mDuUZijRSoJj/lauif0eEQBNUr8q4Pob3E+jM9NxIEbGnLyXc5XGMNkjahGyxI/KGnZXA7ejUICpOZK7/wpqsm7qs4KaCdr8PqFlP0Yi2lvkbqEhR07g5XvL3DAFIV9biTmZvJjC0kagjvBj2H6ucIe5j6w0pDEwBY3lgIlwZldX2+0AB4lzvTWV+3d1pRcJVyUqGTmOXDgNKwLGcoWER9enrsjMuK6o7EeWLS0AFV3lCDrVSdI6j+giHq6C8muNqtb3L9B+bBEQvUfviAyI/LLr6PO1qR1Mu+F8nAfeESXCrlQfwgV9fihTF1l5Cnys0xfEswwykeo4cjE4GS8gkaCXdg0mTPX1tIh0pg=

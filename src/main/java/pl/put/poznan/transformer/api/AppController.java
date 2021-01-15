@@ -25,7 +25,7 @@ public class AppController {
 
     @GetMapping("/api/building")
     public String showMainView(Model model) {
-        logger.debug("Request for empty view");
+        logger.info("Request for front view");
         return "index";
     }
 
@@ -33,7 +33,7 @@ public class AppController {
     public String createSampleBuildingAndShowMainView(Model model){
         Building building = SampleBuildingModel.get();
         service.setBuilding(building);
-        logger.info("Request for view with sample");
+        logger.info("Request for view with sample building");
         model.addAttribute("building", building);
         return "index";
     }
@@ -49,6 +49,7 @@ public class AppController {
     @GetMapping("/api/building/options/calculateArea")
     public String calculateArea(@RequestParam String newAreaId, Model model) {
         model.addAttribute("building", service.getBuilding());
+        logger.info("Request for area of location with id: " + newAreaId);
         if(!checkCalculateData(newAreaId, model)) return "index";
         AreaVisitor visitor = new AreaVisitor(Long.parseLong(newAreaId));
         service.getBuilding().accept(visitor);
@@ -61,6 +62,7 @@ public class AppController {
     @GetMapping("/api/building/options/calculateVolume")
     public String calculateVolume(@RequestParam String newVolumeId, Model model) {
         model.addAttribute("building", service.getBuilding());
+        logger.info("Request for volume of location with id: " + newVolumeId);
         if(!checkCalculateData(newVolumeId, model)) return "index";
         VolumeVisitor visitor = new VolumeVisitor(Long.parseLong(newVolumeId));
         service.getBuilding().accept(visitor);
@@ -73,6 +75,7 @@ public class AppController {
     @GetMapping("/api/building/options/calculateHeating")
     public String calculateHeating(@RequestParam String newHeatingId, Model model) {
         model.addAttribute("building", service.getBuilding());
+        logger.info("Request for heating of location with id: " + newHeatingId);
         if(!checkCalculateData(newHeatingId, model)) return "index";
         HeatingVisitor visitor = new HeatingVisitor(Long.parseLong(newHeatingId));
         service.getBuilding().accept(visitor);
@@ -85,6 +88,7 @@ public class AppController {
     @GetMapping("/api/building/options/calculateLight")
     public String calculateLight(@RequestParam String newLightId, Model model) {
         model.addAttribute("building", service.getBuilding());
+        logger.info("Request for light power of location with id: " + newLightId);
         if(!checkCalculateData(newLightId, model)) return "index";
         LightVisitor visitor = new LightVisitor(Long.parseLong(newLightId));
         service.getBuilding().accept(visitor);
@@ -97,6 +101,7 @@ public class AppController {
     @GetMapping("/api/building/options/getOverheatingLocations")
     public String overheatingLocations(@RequestParam String newHeatingPivot, Model model) {
         model.addAttribute("building", service.getBuilding());
+        logger.info("Request for overheating locations with heating pivot: " + newHeatingPivot);
         if(!checkHeatingPivot(newHeatingPivot, model)) return "index";
         OverheatingLocationsVisitor visitor = new OverheatingLocationsVisitor(Float.parseFloat(newHeatingPivot));
         service.getBuilding().accept(visitor);
@@ -130,6 +135,7 @@ public class AppController {
 
     @GetMapping("/api/building/create")
     public String goToBuildingCreation(Model model){
+        logger.info("Request for creating building view");
         return "create/buildingCreation";
     }
 
